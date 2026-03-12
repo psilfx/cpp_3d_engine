@@ -3,15 +3,16 @@
 #include <core\PFX_Context.h>
 #include <core\PFX_Lut.h>
 #include <core\PFX_Vector.h>
+#include <core\PFX_Angles.h>
 #include <iostream>
 
 PFX_Geometry::PFX_Geometry() {
-    this->_Init( { 0.0f , 0.0f , 0.0f } , { 0.0f , 0.0f , 0.0f } );
+    this->_Init( { 0.0f , 0.0f , 0.0f } , { 0.0f , 0.0f , 0.0f , 0.0f , 0.0f , 0.0f , 0.0f , 0.0f , 0.0f } );
 }
-PFX_Geometry::PFX_Geometry( std::array<float, 3> position , std::array<float, 3> normal ) {
+PFX_Geometry::PFX_Geometry( std::array<float, 3> position , std::array<float, 9> normal ) {
     this->_Init( position , normal );
 }
-void PFX_Geometry::_Init( std::array<float, 3> position , std::array<float, 3> normal ) {
+void PFX_Geometry::_Init( std::array<float, 3> position , std::array<float, 9> normal ) {
     this->_position = position;
     this->_normal = normal;
 }
@@ -42,22 +43,25 @@ unsigned short PFX_Geometry::TrianglesNum() {
 unsigned char& PFX_Geometry::GetTexturePixels() {
     return *this->_texture.Pixels();
 }
-void PFX_Geometry::RotateY( float angle ) {
-    this->_angle_h += angle * LUT_TIME_DELTA;
-    while ( this->_angle_h > LUT_PI )  this->_angle_h -= LUT_PI_DOUBLE;
-    while ( this->_angle_h < -LUT_PI ) this->_angle_h += LUT_PI_DOUBLE;
-    this->UpdateNormal();
-}
 void PFX_Geometry::RotateX( float angle ) {
-    this->_angle_v += angle * LUT_TIME_DELTA;
-    while ( this->_angle_v > LUT_PI )  this->_angle_v -= LUT_PI_DOUBLE;
-    while ( this->_angle_v < -LUT_PI ) this->_angle_v += LUT_PI_DOUBLE;
-    this->UpdateNormal();
+    this->_yaw += angle * LUT_TIME_DELTA;
+    while ( this->_yaw > LUT_PI )  this->_yaw -= LUT_PI_DOUBLE;
+    while ( this->_yaw < -LUT_PI ) this->_yaw += LUT_PI_DOUBLE;
+}
+void PFX_Geometry::RotateY( float angle ) {
+    this->_pitch += angle * LUT_TIME_DELTA;
+    while ( this->_pitch > LUT_PI )  this->_pitch -= LUT_PI_DOUBLE;
+    while ( this->_pitch < -LUT_PI ) this->_pitch += LUT_PI_DOUBLE;
+}
+void PFX_Geometry::RotateZ( float angle ) {
+    this->_roll += angle * LUT_TIME_DELTA;
+    while ( this->_roll > LUT_PI )  this->_roll -= LUT_PI_DOUBLE;
+    while ( this->_roll < -LUT_PI ) this->_roll += LUT_PI_DOUBLE;
 }
 void PFX_Geometry::UpdateNormal() {
-    this->_normal[ 0 ] = std::cos( this->_angle_h ) * std::cos( this->_angle_v );
-    this->_normal[ 1 ] = std::sin( this->_angle_v ) ;
-    this->_normal[ 2 ] = std::sin( this->_angle_h ) * std::cos( this->_angle_v );
+    this->_quternion = EulerToQuaternion( this->_yaw , this->_pitch , this->_roll );
+    const float* q_data = this->_quternion.data();
+    this->_normal = QuaternionToBasis( q_data );
 }
 void PFX_Geometry::Update() {
     PFX_Context& context = PFX_Context::GetInstance();
@@ -73,19 +77,19 @@ void PFX_Geometry::Update() {
     const float py = this->_position[ 1 ];
     const float pz = this->_position[ 2 ];
 
-    const float nx = this->_normal[ 0 ];
-    const float ny = this->_normal[ 1 ];
-    const float nz = this->_normal[ 2 ];
+    float* normal = this->_normal.data();
 
-    float len = std::sqrt( nz * nz + nx * nx );
+    const float nx = normal[ 0 ];
+    const float ny = normal[ 1 ];
+    const float nz = normal[ 2 ];
 
-    const float rx = nz / len;
-    const float ry = 0.0f;
-    const float rz = -nx / len;
+    const float rx = normal[ 3 ];
+    const float ry = normal[ 4 ];
+    const float rz = normal[ 5 ];
 
-    const float ux = ry * nz - rz * ny;
-    const float uy = rz * nx - rx * nz;
-    const float uz = rx * ny - ry * nx;
+    const float ux = normal[ 6 ];
+    const float uy = normal[ 7 ];
+    const float uz = normal[ 8 ];
 
     const float cam_x = px - camera_position[ 0 ];
     const float cam_y = py - camera.camera_y;

@@ -155,7 +155,10 @@ void PFX_Render::Update() {
     std::fill_n( this->_frame_z.begin() , this->_frame_z.size() , 0 );
     this->SkyBox();
 
-    this->_geometry.RotateX( 1.00f );
+    this->_geometry.RotateY( 1.00f );
+    this->_geometry.RotateX( 0.50f );
+    //this->_geometry.RotateZ( -0.50f );
+    this->_geometry.UpdateNormal();
     this->_geometry.Update();
     this->Geometry( this->_geometry );
 
