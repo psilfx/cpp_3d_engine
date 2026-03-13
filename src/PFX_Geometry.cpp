@@ -133,6 +133,7 @@ void PFX_Geometry::Update() {
         //Цикл разрезания треугольников
         uint_fast8_t t_copy = 0; //Количество скопированных треугольников
         uint_fast8_t t_cycle = PFX_Triangle_Clipper::Clip( camera.plane_c , out , tri_buff_2 );
+        #pragma gcc unroll 4
         for( int p = 0; p < 4; p++ ) {
             t_copy = 0;
             std::copy_n( tri_buff_2 , LUT_POINT_SIZE_3 * t_cycle , tri_buff_1 );

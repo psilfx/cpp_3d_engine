@@ -1,8 +1,7 @@
 #include "PFX_Texture.h"
 #include <stb-image/stb_image.h>
 
-PFX_Texture::PFX_Texture( std::string path )
-{
+PFX_Texture::PFX_Texture( std::string path ) {
     this->Load( path );
 }
 PFX_Texture::PFX_Texture() {

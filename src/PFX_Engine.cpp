@@ -14,8 +14,8 @@ void PFX_Engine::Init() {
 void PFX_Engine::Update() {
     this->_player->Update();
     this->_camera->Update();
-    this->_level->Update();
     this->_render->Update();
+    this->_level->Update();
 }
 void PFX_Engine::Draw() {
     this->_render->Draw();
