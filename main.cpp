@@ -71,8 +71,8 @@ int main() {
 //    level.LoadData( 0 );
     //Сам объект движка, для обновлений и вывода
     PFX_Engine& engine = context.Engine();
-
-//    glfwSetWindowMonitor( window , monitor , 0 , 0 , _SCREEN_WIDTH , _SCREEN_HEIGHT , 0 );
+    level.SetSizes( 5.0f , 0.0f , 5.0f );
+ //   glfwSetWindowMonitor( window , monitor , 0 , 0 , _SCREEN_WIDTH , _SCREEN_HEIGHT , 0 );
 
  //   GLFWmonitor* MyMonitor =  glfwGetPrimaryMonitor(); // The primary monitor.. Later Occulus?..
 //    const GLFWvidmode* mode = glfwGetVideoMode(MyMonitor);
