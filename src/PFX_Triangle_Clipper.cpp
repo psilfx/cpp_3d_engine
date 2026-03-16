@@ -9,8 +9,7 @@ inline void CopyTrianglePoint( float* buffer , const float* point ) {
     std::copy_n( point , 5 , buffer );
 }
 
-PFX_Triangle_Clipper::PFX_Triangle_Clipper()
-{
+PFX_Triangle_Clipper::PFX_Triangle_Clipper() {
     //ctor
 }
 std::array<float, 6> PFX_Triangle_Clipper::IntersectEdgeWithPlane( PFX_Plane &plane , const float* edge_start , const float* edge_end ) {
@@ -18,10 +17,10 @@ std::array<float, 6> PFX_Triangle_Clipper::IntersectEdgeWithPlane( PFX_Plane &pl
     const float ad = Vector3F_Dot( edge_start , normal );
     const float bd = Vector3F_Dot( edge_end , normal );
     const float denominator = bd - ad;
-    // «ащита от делени€ на ноль
-    // ѕараллельно плоскости - возвращаем начальную точку
+    //«ащита от делени€ на ноль
+    //ѕараллельно плоскости - возвращаем начальную точку
     if ( std::abs( denominator ) < 1e-6f ) return { edge_start[ 0 ] , edge_start[ 1 ] , edge_start[ 2 ] , edge_start[ 3 ] , edge_start[ 4 ] };
-    const float t = std::clamp( ( plane.Distance() - ad ) / denominator , LUT_PROJECTION_DISTANCE_NEAR , 1.0f );
+    const float t = std::clamp( ( plane.distance - ad ) / denominator , LUT_PROJECTION_DISTANCE_NEAR , 1.0f );
     return {
         edge_start[ 0 ] + ( edge_end[ 0 ] - edge_start[ 0 ] ) * t,
         edge_start[ 1 ] + ( edge_end[ 1 ] - edge_start[ 1 ] ) * t,

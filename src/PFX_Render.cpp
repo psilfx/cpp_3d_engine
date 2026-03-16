@@ -43,89 +43,7 @@ void PFX_Render::Init( GLFWwindow* window ) {
     // Выделяем память под текстуру (пустую)
     glTexImage2D( GL_TEXTURE_2D , 0 , GL_RGBA , LUT_RENDER_SCREEN_WIDTH , LUT_RENDER_SCREEN_HEIGHT , 0 , GL_RGBA , GL_UNSIGNED_BYTE , NULL );
 
-    //Тестовая текстура
-    this->_texture.Load( "images/textures/cube.jpg" );
-    //Низ
-    PFX_Triangle tri1;
-    tri1.SetPoint( 0 , -0.5f , -0.5f , -0.5f , 0.0f , 0.0f );
-    tri1.SetPoint( 1 , 0.5f , -0.5f , -0.5f , 1.0f , 0.0f );
-    tri1.SetPoint( 2 , 0.5f , -0.5f , 0.5f , 1.0f , 1.0f );
-    tri1.normal = { 0.0f , 1.0f , 0.0f };
-    PFX_Triangle tri2;
-    tri2.SetPoint( 0 , 0.5f , -0.5f , 0.5f , 1.0f , 1.0f );
-    tri2.SetPoint( 1 , -0.5f , -0.5f , 0.5f , 0.0f , 1.0f );
-    tri2.SetPoint( 2 , -0.5f , -0.5f , -0.5f , 0.0f , 0.0f );
-    tri2.normal = { 0.0f , 1.0f , 0.0f };
-    //Верх
-    PFX_Triangle tri3;
-    tri3.SetPoint( 0 , -0.5f , 0.5f , -0.5f , 0.0f , 0.0f );
-    tri3.SetPoint( 1 , 0.5f , 0.5f , -0.5f , 1.0f , 0.0f );
-    tri3.SetPoint( 2 , 0.5f , 0.5f , 0.5f , 1.0f , 1.0f );
-    tri3.normal = { 0.0f , -1.0f , 0.0f };
-    PFX_Triangle tri4;
-    tri4.SetPoint( 0 , 0.5f , 0.5f , 0.5f , 1.0f , 1.0f );
-    tri4.SetPoint( 1 , -0.5f , 0.5f , 0.5f , 0.0f , 1.0f );
-    tri4.SetPoint( 2 , -0.5f , 0.5f , -0.5f , 0.0f , 0.0f );
-    tri4.normal = { 0.0f , -1.0f , 0.0f };
-    //Дальняя часть
-    PFX_Triangle tri5;
-    tri5.SetPoint( 0 , -0.5f , -0.5f , -0.5f , 0.0f , 0.0f );
-    tri5.SetPoint( 1 , 0.5f , -0.5f , -0.5f , 1.0f , 0.0f );
-    tri5.SetPoint( 2 , 0.5f , 0.5f , -0.5f , 1.0f , 1.0f );
-    tri5.normal = { 0.0f , 0.0f , 1.0f };
-    PFX_Triangle tri6;
-    tri6.SetPoint( 0 , 0.5f , 0.5f , -0.5f , 1.0f , 1.0f );
-    tri6.SetPoint( 1 , -0.5f , 0.5f , -0.5f , 0.0f , 1.0f );
-    tri6.SetPoint( 2 , -0.5f , -0.5f , -0.5f , 0.0f , 0.0f );
-    tri6.normal = { 0.0f , 0.0f , 1.0f };
-    //Ближняя часть
-    PFX_Triangle tri7;
-    tri7.SetPoint( 0 , -0.5f , -0.5f , 0.5f , 0.0f , 0.0f );
-    tri7.SetPoint( 1 , 0.5f , -0.5f , 0.5f , 1.0f , 0.0f );
-    tri7.SetPoint( 2 , 0.5f , 0.5f , 0.5f , 1.0f , 1.0f );
-    tri7.normal = { 0.0f , 0.0f , -1.0f };
-    PFX_Triangle tri8;
-    tri8.SetPoint( 0 , 0.5f , 0.5f , 0.5f , 1.0f , 1.0f );
-    tri8.SetPoint( 1 , -0.5f , 0.5f , 0.5f , 0.0f , 1.0f );
-    tri8.SetPoint( 2 , -0.5f , -0.5f , 0.5f , 0.0f , 0.0f );
-    tri8.normal = { 0.0f , 0.0f , -1.0f };
-    //Правая часть
-    PFX_Triangle tri9;
-    tri9.SetPoint( 0 , -0.5f , -0.5f , -0.5f , 0.0f , 0.0f );
-    tri9.SetPoint( 1 , -0.5f , 0.5f , -0.5f , 1.0f , 0.0f );
-    tri9.SetPoint( 2 , -0.5f , 0.5f , 0.5f , 1.0f , 1.0f );
-    tri9.normal = { 1.0f , 0.0f , 0.0f };
-    PFX_Triangle tri10;
-    tri10.SetPoint( 0 , -0.5f , 0.5f , 0.5f , 1.0f , 1.0f );
-    tri10.SetPoint( 1 , -0.5f , -0.5f , 0.5f , 0.0f , 1.0f );
-    tri10.SetPoint( 2 , -0.5f , -0.5f , -0.5f , 0.0f , 0.0f );
-    tri10.normal = { 1.0f , 0.0f , 0.0f };
-    //Левая часть
-    PFX_Triangle tri11;
-    tri11.SetPoint( 0 , 0.5f , -0.5f , -0.5f , 0.0f , 0.0f );
-    tri11.SetPoint( 1 , 0.5f , 0.5f , -0.5f , 1.0f , 0.0f );
-    tri11.SetPoint( 2 , 0.5f , 0.5f , 0.5f , 1.0f , 1.0f );
-    tri11.normal = { -1.0f , 0.0f , 0.0f };
-    PFX_Triangle tri12;
-    tri12.SetPoint( 0 , 0.5f , 0.5f , 0.5f , 1.0f , 1.0f );
-    tri12.SetPoint( 1 , 0.5f , -0.5f , 0.5f , 0.0f , 1.0f );
-    tri12.SetPoint( 2 , 0.5f , -0.5f , -0.5f , 0.0f , 0.0f );
-    tri12.normal = { -1.0f , 0.0f , 0.0f };
-
-    this->_geometry.AddTriangle( tri1 );
-    this->_geometry.AddTriangle( tri2 );
-    this->_geometry.AddTriangle( tri3 );
-    this->_geometry.AddTriangle( tri4 );
-    this->_geometry.AddTriangle( tri5 );
-    this->_geometry.AddTriangle( tri6 );
-    this->_geometry.AddTriangle( tri7 );
-    this->_geometry.AddTriangle( tri8 );
-    this->_geometry.AddTriangle( tri9 );
-    this->_geometry.AddTriangle( tri10 );
-    this->_geometry.AddTriangle( tri11 );
-    this->_geometry.AddTriangle( tri12 );
-    this->_geometry.SetTexture( "images/textures/cube.jpg" );
-    this->_geometry.Translate( { 2.0f , 0.5f , 2.0f } );
+    Geometry_Create_Cube( this->_geometry , { 2.0f , 0.5f , 2.0f } , 1.0f , 1.0f , 1.0f , "images/textures/cube.jpg" );
     this->_geometry.Update();
 }
 PFX_Render::~PFX_Render()
@@ -160,7 +78,9 @@ void PFX_Render::Update() {
     //this->_geometry.RotateZ( -0.50f );
     this->_geometry.UpdateNormal();
     this->_geometry.Update();
-    this->Geometry( this->_geometry );
+    //this->Geometry( this->_geometry );
+
+    //std::cout << "RenderStart" << "\n";
 
 }
 void PFX_Render::Geometry( PFX_Geometry &geometry ) {

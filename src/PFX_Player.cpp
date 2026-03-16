@@ -1,5 +1,6 @@
 #include "PFX_Player.h"
 #include <core/PFX_Vector.h>
+#include <algorithm>
 #include <iostream>
 
 PFX_Player::PFX_Player()
@@ -29,8 +30,8 @@ void PFX_Player::UpdateMove() {
     std::array<float, 2> move_vector = Vector2F_Plus( this->_forward , this->_strafe );
     this->_position[ 0 ] += move_vector[ 0 ];
     this->_position[ 2 ] += move_vector[ 1 ];
-    this->_position[ 0 ] = std::max( this->_position[ 0 ] , 0.0f );
-    this->_position[ 2 ] = std::max( this->_position[ 2 ] , 0.0f );
+    this->_position[ 0 ] = std::clamp( this->_position[ 0 ] , 0.0f , this->_position_max[ 0 ] );
+    this->_position[ 2 ] = std::clamp( this->_position[ 2 ] , 0.0f , this->_position_max[ 2 ] );
 }
 std::array<float, 3>& PFX_Player::GetNormal(){
     return this->_normal;
@@ -67,6 +68,9 @@ void PFX_Player::Control( int move_forward , int move_strafe , float ang_h , flo
     this->_strafe[ 1 ]  = ( move_speed * position_strafe[ 2 ] ) * static_cast<float>( -move_strafe );
     this->_forward[ 0 ] = ( move_speed * this->_normal[ 0 ] ) * static_cast<float>( move_forward );
     this->_forward[ 1 ] = ( move_speed * this->_normal[ 2 ] ) * static_cast<float>( move_forward );
+}
+void PFX_Player::SetPositionMax( std::array<float, 3> position ) {
+    this->_position_max = position;
 }
 PFX_Player::~PFX_Player()
 {

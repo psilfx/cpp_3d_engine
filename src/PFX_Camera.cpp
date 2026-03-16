@@ -52,6 +52,12 @@ void PFX_Camera::UpdatePyramid() {
     this->plane_t.position[ 0 ] = this->position[ 0 ] ;
     this->plane_t.position[ 1 ] = this->camera_y;
     this->plane_t.position[ 2 ] = this->position[ 2 ] ;
+
+    this->plane_c.Update();
+    this->plane_r.Update();
+    this->plane_l.Update();
+    this->plane_t.Update();
+    this->plane_b.Update();
 }
 void PFX_Camera::Update() {
     this->camera_y = this->position[ 1 ] + this->height;
